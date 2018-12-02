@@ -3,6 +3,33 @@ import numpy as np
 gap_penalty = -7
 match_penalty = -4
 match_reward = 5
+str1 = ("GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
+"GTGTGCACGCGATAGCATTGCGAGACGCTGGAGCCGGAGCACCCTATGTCGCAGTATCTGTCTTTGATTC"
+"CTGCCTCATCCTGTTATTTATCGCACCTACGTTCAATATTACAGGCGAACATACCTACTGAAGTGTGTTA"
+"ATTAATTAATGCTTATAGGACATAATAATAACAATTGAATGTCTGCACAGCCGCTTTCCACACAGACATC"
+"ATAACAAAAAATTTCCACCAAACCCCCCCCTCCCCCCGCTTCTGGCCACAGCACTTAAACACATCTCTGC"
+"CAAACCCCAAAAACAAAGAACCCTAACACCAGCCTAACCAGATTTCAAATTGTATCTTTTGGCGGTATGC"
+"ACTTTTAACAGTCACCCCCCAACTAACACATTATTTTCCCCTCCCACTCCCATACTACTAATCTCATCAA"
+"TACAACCCCCGCCCATCCTACCCAGCACACACACACCGCTGCTAACCCCATACCCCGAACCAACCAAACC"
+"CCAAAGACACCCCCCACAGTTTATGTAGCTTACCTCCTCAAAGCAATACACTGAAAATGTTTAGACGGGC"
+"TCACATCACCCCATAAACAAATAGGTTTGGTCCTAGCCTTTCTATTAGCTCTTAGTAAGATTACACATGC"
+"AAGCATCCCCGTTCCAGTGAGTTCACCCTCTAAATCACCACGATCAAAAGGGACAAGCATCAAGCACGCA")
+
+str2 = ("GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT" 
+"AAACGAAAGTTTAACTAAGCTATACTAACCCCAGGGTTGGTCAATTTCGTGCCAGCCACCGCGGTCACAC" 
+"GATTAACCCAAGTCAATAGAAGCCGGCGTAAAGAGTGTTTTAGATCACCCCCTCCCCAATAAAGCTAAAA" 
+"CTCACCTGAGTTGTAAAAAACTCCAGTTGACACAAAATAGACTACGAAAGTGGCTTTAACATATCTGAAC" 
+"ACACAATAGCTAAGACCCAAACTGGGATTAGATACCCCACTATGCTTAGCCCTAAACCTCAACAGTTAAA"
+"TCAACAAAACTGCTCGCCAGAACACTACGAGCCACAGCTTAAAACTCAAAGGACCTGGCGGTGCTTCATA"
+"TCCCTCTAGAGGAGCCTGTTCTGTAATCGATAAACCCCGATCAACCTCACCACCTCTTGCTCAGCCTATA"
+"TACCGCCATCTTCAGCAAACCCTGATGAAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
+"TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACCCCAGAAAACTACGATAGCCCTT"
+"ATGAAACTTAAGGGTCAAAGGTGGATTTAGCAGTAAACTGAGAGTAGAGTGCTTAGTTGAACAGGGCCCT"
+"GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG")
+
+str1s = "GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
+str2s = "GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
+
 def twoStringAlign( str1, str2 ):
     workstr1 = "-" + str1
     workstr2 = "-" + str2
@@ -49,21 +76,24 @@ def traceBack(dynamicArray, str1, str2):
             keepGoing = False
     ret = [newStr1, newStr2, editPlacesRow]
     return ret
-def PrintAlignment(str1, str2, chunk):
-    keepGoing = True
+def print_alignment(str1, str2, chunk):
+    keep_going = True
     offset = 0
-    while(keepGoing):
-        string1 = "Base Pairs "+ str(offset) +" to " + str(min(offset + chunk, len(str1)))
-        string3 = "Base Pairs "+ str(offset) +" to " + str(min(offset + chunk, len(str2)))
+    while(keep_going):
+        string1 = ""
+        print("Base Pairs "+ str(offset) +" to " + str(min(offset + chunk, len(str1))) + ": ")
+        string3 = ""
         string1 = string1 + str1[offset:min(len(str1), offset + chunk)]
         string3 = string3 + str2[offset: min(len(str2), offset+ chunk)]
-        offset = offset + chunk
+        
         string2 = ""
+        '''
         for i in range(len(str1)):
-            string2 = string2 + " "
+            string2 += " "
+        '''
         for i in range(offset, offset+chunk):
             if(i >= len(str1) or i >= len(str2)):
-                keepGoing = False
+                keep_going = False
                 break
             elif(str1[i] == "-" or str2[i] == "-"):
                 string2 = string2 + " "
@@ -77,4 +107,15 @@ def PrintAlignment(str1, str2, chunk):
         string1 = ""
         string2 = ""
         string3 = ""
+        offset = offset + chunk
     return
+
+'''
+Param: str_lst : list of aligned strings
+Param: chunk : how much we want to split the string into
+chunks 
+'''
+def multi_print_alignment(str_lst, chunk):
+    print()
+
+print_alignment(str1, str2, 70)
