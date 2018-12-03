@@ -1,4 +1,6 @@
 import numpy as np
+from pprint import pprint
+
 
 gap_penalty = -7
 match_penalty = -4
@@ -29,7 +31,9 @@ str2 = ("GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
 
 str1s = "GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
 str2s = "GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
-
+str3s = "GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG"
+str4s = "TACCGCCATCTTCAGCAAACCCTGATGAAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
+str_lst = [str1s, str2s, str3s, str4s]
 def twoStringAlign( str1, str2 ):
     workstr1 = "-" + str1
     workstr2 = "-" + str2
@@ -115,7 +119,57 @@ Param: str_lst : list of aligned strings
 Param: chunk : how much we want to split the string into
 chunks 
 '''
-def multi_print_alignment(str_lst, chunk):
-    print()
+def multi_print_alignment(seq_lst, chunk):
+    keep_going = True
+    offset = 0
 
-print_alignment(str1, str2, 70)
+    string1 = ""
+    string2 = ""
+
+    diff_str = ""
+    str1 = ""
+    str2 = ""
+    even = True
+    #seq_count = 0
+
+    #TODO stars at bottom if they all are same in one place
+    #TODO print fasta names aka have array of 2 element as param
+    while keep_going:
+        print(f"Base Pairs {offset} to {str(min(offset + chunk, len(seq_lst[0])))}: ")
+        for i in range(len(seq_lst)):
+            string1 = seq_lst[i]
+            if i < len(seq_lst) - 1:
+                string2 = seq_lst[i + 1]
+
+            str1 = seq_lst[i][offset : min((offset + chunk), len(seq_lst[i]))]
+            if i < len(seq_lst) - 1:
+                str2 = seq_lst[i + 1][offset : min((offset + chunk), len(seq_lst[i+1]))]
+            
+            for j in range(offset, (offset + chunk)):
+                print(j)
+                print
+                if(string1[j] == "-" or string2[j] == "-"):
+                    diff_str += " "
+                elif(string1[j] == string2[j]):
+                    diff_str += "|"
+                else: 
+                    diff_str +=  "."
+
+            if even:
+                print(str1)
+            print(diff_str)
+            if even:
+                print(str2)
+            even = not even # need to flip this every other iteration             
+            string1 = string2 = str1 = str2 = diff_str = ""
+
+        offset += chunk
+        print(offset)
+        if offset > len(str_lst[0]): 
+            keep_going = False
+        
+
+
+#print_alignment(str1, str2, 70)
+pprint(str_lst)
+multi_print_alignment(str_lst, 30)
