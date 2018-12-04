@@ -167,7 +167,26 @@ def multi_print_alignment(seq_lst, chunk):
         print(offset)
         if offset > len(str_lst[0]): 
             keep_going = False
+def get_dynamic_matrix(str_arr):
+    workstr1 = "-" + str1
+    workstr2 = "-" + str2
+    match_arr = np.zeros( ( len( workstr1 ), len( workstr2 ) ) )
+    for index in range( len( workstr1 ) ):
+        match_arr[ index ][ 0 ] = index * gap_penalty
+    for index in range( len(workstr2)):
+        match_arr[0][index] = index * gap_penalty
         
+    for row in range( len( workstr1 ) - 1 ):
+        for col in range( len( workstr2 ) - 1 ):
+            possibleChoices = [( match_arr[ row ][ col + 1 ] + gap_penalty ),
+                               ( match_arr[ row + 1 ][ col ] + gap_penalty ),
+                               ( ( match_arr[ row ][ col ] + match_reward )
+							   if
+                               ( workstr1[ row + 1 ] == workstr2[ col + 1 ])
+                               else( match_arr[ row ][ col ] + match_penalty
+							   ))]
+            match_arr[ row + 1 ][ col + 1 ] = max( possibleChoices )
+    return  matchArr[len(str1)-1][len(str2)-2]
 
 
 #print_alignment(str1, str2, 70)
