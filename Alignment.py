@@ -30,9 +30,9 @@ str2 = ("GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
 "GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG")
 
 str1s = "GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
-str2s = "GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
-str3s = "GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG"
-str4s = "TACCGCCATCTTCAGCAAACCCTGATGAAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
+str2s = "GATCACAGGTCTATCACCCTATTAACCGCTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
+str3s = "GAAGCGCGTACACACCGCCCGTCACCCGCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG"
+str4s = "TACCGCCATCTTCAGCAAACCCTGATGGAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
 str_lst = [str1s, str2s, str3s, str4s]
 def twoStringAlign( str1, str2 ):
     workstr1 = "-" + str1
@@ -126,6 +126,8 @@ def multi_print_alignment(seq_lst, chunk):
     string1 = ""
     string2 = ""
 
+    star_arr = [True] * chunk
+
     diff_str = ""
     str1 = ""
     str2 = ""
@@ -135,8 +137,11 @@ def multi_print_alignment(seq_lst, chunk):
     #TODO stars at bottom if they all are same in one place
     #TODO print fasta names aka have array of 2 element as param
     while keep_going:
+        print()
         print(f"Base Pairs {offset} to {str(min(offset + chunk, len(seq_lst[0])))}: ")
-        for i in range(len(seq_lst)):
+        
+
+        for i in range(len(seq_lst) - 1):
             string1 = seq_lst[i]
             if i < len(seq_lst) - 1:
                 string2 = seq_lst[i + 1]
@@ -145,15 +150,17 @@ def multi_print_alignment(seq_lst, chunk):
             if i < len(seq_lst) - 1:
                 str2 = seq_lst[i + 1][offset : min((offset + chunk), len(seq_lst[i+1]))]
             
-            for j in range(offset, (offset + chunk)):
-                print(j)
-                print
+            for j in range(offset, min((offset + chunk), len(string1))):
+                #print(j)
                 if(string1[j] == "-" or string2[j] == "-"):
                     diff_str += " "
                 elif(string1[j] == string2[j]):
                     diff_str += "|"
                 else: 
                     diff_str +=  "."
+                    star_arr[j - offset] = False
+                    
+
 
             if even:
                 print(str1)
@@ -163,10 +170,21 @@ def multi_print_alignment(seq_lst, chunk):
             even = not even # need to flip this every other iteration             
             string1 = string2 = str1 = str2 = diff_str = ""
 
+        even = not even #TODO test on odd numbered lists 
         offset += chunk
-        print(offset)
+        for b in range(len(star_arr)):
+            if b < len(str1):
+                if star_arr[b]:
+                    print('*', end='')
+                else: 
+                    print(' ', end='')
+        star_arr = [True] * chunk
         if offset > len(str_lst[0]): 
             keep_going = False
+    
+
+
+
 def get_dynamic_matrix(str_arr):
     workstr1 = "-" + str1
     workstr2 = "-" + str2
@@ -186,7 +204,7 @@ def get_dynamic_matrix(str_arr):
                                else( match_arr[ row ][ col ] + match_penalty
 							   ))]
             match_arr[ row + 1 ][ col + 1 ] = max( possibleChoices )
-    return  matchArr[len(str1)-1][len(str2)-2]
+    return  match_arr[len(str1)-1][len(str2)-2]
 
 
 #print_alignment(str1, str2, 70)
