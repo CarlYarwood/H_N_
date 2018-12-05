@@ -186,7 +186,7 @@ def multi_print_alignment(seq_lst, chunk):
 
 
 
-def get_dynamic_matrix(str_arr):
+def get_dynamic_score(str1, str2):
     workstr1 = "-" + str1
     workstr2 = "-" + str2
     match_arr = np.zeros( ( len( workstr1 ), len( workstr2 ) ) )
@@ -206,6 +206,23 @@ def get_dynamic_matrix(str_arr):
 							   ))]
             match_arr[ row + 1 ][ col + 1 ] = max( possibleChoices )
     return  match_arr[len(str1)-1][len(str2)-2]
+def get_indexes_for_best_alignment(str_arr):
+    str1 = 0
+    str2 = 1
+    maxi = get_dynamic_score(str_arr[0], str_arr[1])
+    for i in range(len(str_arr)):
+        for c in range(i, len(str_arr)):
+            if i != c:
+                temp = get_dynamic_score(str_arr[i], str_arr[c]):
+                if maxi < temp:
+                    maxi = temp
+                    str1 = i
+                    str2 = c
+    ret = {str1,str2}
+    return ret
+
+                
+            
 
 
 #print_alignment(str1, str2, 70)
