@@ -28,16 +28,14 @@ str2 = ("GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
 "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACCCCAGAAAACTACGATAGCCCTT"
 "ATGAAACTTAAGGGTCAAAGGTGGATTTAGCAGTAAACTGAGAGTAGAGTGCTTAGTTGAACAGGGCCCT"
 "GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG")
-str5 = "ATAG"
-str6 = "ATG"
 
-str1s = "GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
-str2s = "GATCACAGGTCTATCACCCTATTAACCGCTCACGGGAGCTCTCCATGAATTTGGTATTTTCGTCTGGGGG"
+str1s = "GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGTAAT"
+str2s = "GATCACAGGTCTATCACCCTATTAACCGCTCACGGGAGCTCTCCATGAATTTGGTATTTTCGTCTGTGGG"
 str3s = "GAAGCGCGTACACACCGCCCGTCACCCGCCTCAAGTATACTTCAAAGAACATTTAACTAAAACCCCTACG"
 str4s = "TACCGCCATCTTCAGCAAACCCTGATGGAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
-str5s = "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACACCAGAAAACTACGATAGCCCTT"
+str5s = "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACACCAGAAAACTACGATAGCTCTT"
 
-
+str_lst = [str1s, str2s, str3s, str4s, str5s]
 def print_alignment(str1, str2, chunk):
     keep_going = True
     offset = 0
@@ -90,6 +88,9 @@ def multi_print_alignment(seq_lst, chunk):
     str1 = ""
     str2 = ""
     even = True
+
+    if len(seq_lst) % 2 != 0:
+        even = False
     #seq_count = 0
 
     #TODO stars at bottom if they all are same in one place
@@ -105,6 +106,7 @@ def multi_print_alignment(seq_lst, chunk):
                 string2 = seq_lst[i + 1]
 
             str1 = seq_lst[i][offset : min((offset + chunk), len(seq_lst[i]))]
+            str1_len = len(str1)
             if i < len(seq_lst) - 1:
                 str2 = seq_lst[i + 1][offset : min((offset + chunk), len(seq_lst[i+1]))]
             
@@ -120,18 +122,19 @@ def multi_print_alignment(seq_lst, chunk):
                     
 
 
-            if even:
+            if even or i == 0:
                 print(str1)
             print(diff_str)
-            if even:
+            if even or i == len(seq_lst) - 1 :
                 print(str2)
             even = not even # need to flip this every other iteration             
             string1 = string2 = str1 = str2 = diff_str = ""
-
-        even = not even #TODO test on odd numbered lists 
+        
+        if len(seq_lst) % 2 == 0:
+            even = not even
         offset += chunk
         for b in range(len(star_arr)):
-            if b < len(str1):
+            if b < str1_len:
                 if star_arr[b]:
                     print('*', end='')
                 else: 
@@ -139,3 +142,7 @@ def multi_print_alignment(seq_lst, chunk):
         star_arr = [True] * chunk
         if offset > len(str_lst[0]): 
             keep_going = False
+
+#print_alignment(str1, str2, 70)
+pprint(str_lst)
+multi_print_alignment(str_lst, 30)
