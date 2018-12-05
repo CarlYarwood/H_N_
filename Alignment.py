@@ -28,6 +28,8 @@ str2 = ("GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
 "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACCCCAGAAAACTACGATAGCCCTT"
 "ATGAAACTTAAGGGTCAAAGGTGGATTTAGCAGTAAACTGAGAGTAGAGTGCTTAGTTGAACAGGGCCCT"
 "GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG")
+str5 = "ATAG"
+str6 = "ATG"
 
 str1s = "GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
 str2s = "GATCACAGGTCTATCACCCTATTAACCGCTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
@@ -213,7 +215,7 @@ def get_indexes_for_best_alignment(str_arr):
     for i in range(len(str_arr)):
         for c in range(i, len(str_arr)):
             if i != c:
-                temp = get_dynamic_score(str_arr[i], str_arr[c]):
+                temp = get_dynamic_score(str_arr[i], str_arr[c])
                 if maxi < temp:
                     maxi = temp
                     str1 = i
@@ -226,5 +228,11 @@ def get_indexes_for_best_alignment(str_arr):
 
 
 #print_alignment(str1, str2, 70)
-pprint(str_lst)
-multi_print_alignment(str_lst, 30)
+#pprint(str_lst)
+#multi_print_alignment(str_lst, 30)
+out = twoStringAlign(str6,str5)
+print(out)
+print(out[0][out[2][0]:out[2][0]+1])
+str3 = "ABC"
+str3 = str3[:out[2][0]] + "-" + str3[out[2][0]:]
+print(str3)
