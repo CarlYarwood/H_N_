@@ -37,7 +37,7 @@ str3s = "GAAGCGCGTACACACCGCCCGTCACCCGCCTCAAGTATACTTCAAAGAACATTTAACTAAAACCCCTACG"
 str4s = "TACCGCCATCTTCAGCAAACCCTGATGGAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
 str5s = "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACACCAGAAAACTACGATAGCCCTT"
 str_lst = [str1s, str2s, str3s, str4s]
-def twoStringAlign( str1, str2 ):
+def two_string_align( str1, str2 ):
     workstr1 = "-" + str1
     workstr2 = "-" + str2
     match_arr = np.zeros( ( len( workstr1 ), len( workstr2 ) ) )
@@ -107,7 +107,7 @@ def get_dynamic_score(str1, str2):
                                else( match_arr[ row ][ col ] + match_penalty
 							   ))]
             match_arr[ row + 1 ][ col + 1 ] = max( possibleChoices )
-    return  match_arr[len(str1)-1][len(str2)-2]
+    return  match_arr[len(str1)-1][len(str2)-1]
 def get_indexes_for_best_alignment(str_arr):
     str1 = 0
     str2 = 1
@@ -122,7 +122,46 @@ def get_indexes_for_best_alignment(str_arr):
                     str2 = c
     ret = {str1,str2}
     return ret
+def progressive_alignment(str_arr):
+    prev = []
+    str_pos_1 = 0;
+    str_pos_2 = 1;
+    out = []
+    best_match_val = get_dynamic_score(str_arr[0], str_arr[1]);
+    for i in range(len(str_arr)):
+        for c in range(i,len( str_arr)):
+            if i != c :
+                temp = get_dynamic_score(str_arr[i], str_arr[c])
+                if temp > best_match_val:
+                    best_match_val = temp
+                    str_pos_1 = i
+                    str_pos_2 = c
+    out = two_string_align(str_arr[str_pos_1], str_arr[str_pos_2])
+    prev.append(out[0])
+    str_arr.pop(max(str_pos_1, str_pos_2))
+    str_arr.pop(min(str_pos_1, str_pos_2))
+    more_to_align = True
+    while(more_to_align):
+        consensus_string = out[1]
+        str_pos_to_use = 0
+        best_match_val = get_dynamic_score(consensus_string, str_arr[0])
+        for i  in range(len(str_arr)):
+            temp = get_dynamic_score(consensus_string, str_arr[i])
+            if temp > best_match_val:
+                best_match_val = temp
+                str_pos_to_use = i
+        out = two_string_align(consensus_string, str_arr[str_pos_to_use])
+        for i in range(len(prev)):
+            for c in out[2]:
+               prev[i] = prev[i][:c] + "-" + prev[i][c:]
+        prev.append(out[0])
+        str_arr.pop(str_pos_to_use)
+        if(len(str_arr) == 0):
+            more_to_align = False
+    prev.append(out[1])
+    return prev
 
+    
                 
             
 
@@ -130,9 +169,8 @@ def get_indexes_for_best_alignment(str_arr):
 #print_alignment(str1, str2, 70)
 #pprint(str_lst)
 #multi_print_alignment(str_lst, 30)
-out = twoStringAlign(str6,str5)
-print(out)
-print(out[0][out[2][0]:out[2][0]+1])
-str3 = "ABC"
-str3 = str3[:out[2][0]] + "-" + str3[out[2][0]:]
-print(str3)
+#str_arr = ["ATG", "ATAG","AATAAAG","AATUUUUG"]
+
+#new_str_arr = progressive_alignment(str_arr)
+#for i in new_str_arr:
+#    print(i)
