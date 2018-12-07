@@ -97,7 +97,7 @@ def multi_print_alignment(seq_lst, chunk):
     #TODO print fasta names aka have array of 2 element as param
     while keep_going:
         print()
-        print(f"Base Pairs {offset} to {str(min(offset + chunk, len(seq_lst[0])))}: ")
+        #print(f"Base Pairs {offset} to {str(min(offset + chunk, len(seq_lst[0])))}: ")
         
 
         for i in range(len(seq_lst) - 1):
@@ -144,5 +144,5 @@ def multi_print_alignment(seq_lst, chunk):
             keep_going = False
 
 #print_alignment(str1, str2, 70)
-pprint(str_lst)
-multi_print_alignment(str_lst, 30)
+#pprint(str_lst)
+#multi_print_alignment(str_lst, 30)
