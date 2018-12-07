@@ -28,13 +28,16 @@ str2 = ("GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
 "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACCCCAGAAAACTACGATAGCCCTT"
 "ATGAAACTTAAGGGTCAAAGGTGGATTTAGCAGTAAACTGAGAGTAGAGTGCTTAGTTGAACAGGGCCCT"
 "GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG")
+str5 = "ATAG"
+str6 = "ATG"
 
 str1s = "GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT"
-str2s = "GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
-str3s = "GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG"
-str4s = "TACCGCCATCTTCAGCAAACCCTGATGAAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
+str2s = "GATCACAGGTCTATCACCCTATTAACCGCTCACGGGAGCTCTCCATGAATTTGGTATTTTCGTCTGGGGG"
+str3s = "GAAGCGCGTACACACCGCCCGTCACCCGCCTCAAGTATACTTCAAAGAACATTTAACTAAAACCCCTACG"
+str4s = "TACCGCCATCTTCAGCAAACCCTGATGGAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
+str5s = "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACACCAGAAAACTACGATAGCCCTT"
 str_lst = [str1s, str2s, str3s, str4s]
-def twoStringAlign( str1, str2 ):
+def two_string_align( str1, str2 ):
     workstr1 = "-" + str1
     workstr2 = "-" + str2
     match_arr = np.zeros( ( len( workstr1 ), len( workstr2 ) ) )
@@ -80,96 +83,94 @@ def traceBack(dynamicArray, str1, str2):
             keepGoing = False
     ret = [newStr1, newStr2, editPlacesRow]
     return ret
-def print_alignment(str1, str2, chunk):
-    keep_going = True
-    offset = 0
-    while(keep_going):
-        string1 = ""
-        print("Base Pairs "+ str(offset) +" to " + str(min(offset + chunk, len(str1))) + ": ")
-        string3 = ""
-        string1 = string1 + str1[offset:min(len(str1), offset + chunk)]
-        string3 = string3 + str2[offset: min(len(str2), offset+ chunk)]
+
+
+
+
+
+def get_dynamic_score(str1, str2):
+    workstr1 = "-" + str1
+    workstr2 = "-" + str2
+    match_arr = np.zeros( ( len( workstr1 ), len( workstr2 ) ) )
+    for index in range( len( workstr1 ) ):
+        match_arr[ index ][ 0 ] = index * gap_penalty
+    for index in range( len(workstr2)):
+        match_arr[0][index] = index * gap_penalty
         
-        string2 = ""
-        '''
-        for i in range(len(str1)):
-            string2 += " "
-        '''
-        for i in range(offset, offset+chunk):
-            if(i >= len(str1) or i >= len(str2)):
-                keep_going = False
-                break
-            elif(str1[i] == "-" or str2[i] == "-"):
-                string2 = string2 + " "
-            elif(str1[i] == str2[i]):
-                string2 = string2 + "|"
-            else:
-                string2 = string2 + "."
-        print(string1)
-        print(string2)
-        print(string3)
-        string1 = ""
-        string2 = ""
-        string3 = ""
-        offset = offset + chunk
-    return
+    for row in range( len( workstr1 ) - 1 ):
+        for col in range( len( workstr2 ) - 1 ):
+            possibleChoices = [( match_arr[ row ][ col + 1 ] + gap_penalty ),
+                               ( match_arr[ row + 1 ][ col ] + gap_penalty ),
+                               ( ( match_arr[ row ][ col ] + match_reward )
+							   if
+                               ( workstr1[ row + 1 ] == workstr2[ col + 1 ])
+                               else( match_arr[ row ][ col ] + match_penalty
+							   ))]
+            match_arr[ row + 1 ][ col + 1 ] = max( possibleChoices )
+    return  match_arr[len(str1)-1][len(str2)-1]
+def get_indexes_for_best_alignment(str_arr):
+    str1 = 0
+    str2 = 1
+    maxi = get_dynamic_score(str_arr[0], str_arr[1])
+    for i in range(len(str_arr)):
+        for c in range(i, len(str_arr)):
+            if i != c:
+                temp = get_dynamic_score(str_arr[i], str_arr[c])
+                if maxi < temp:
+                    maxi = temp
+                    str1 = i
+                    str2 = c
+    ret = {str1,str2}
+    return ret
+def progressive_alignment(str_arr):
+    prev = []
+    str_pos_1 = 0;
+    str_pos_2 = 1;
+    out = []
+    best_match_val = get_dynamic_score(str_arr[0], str_arr[1]);
+    for i in range(len(str_arr)):
+        for c in range(i,len( str_arr)):
+            if i != c :
+                temp = get_dynamic_score(str_arr[i], str_arr[c])
+                if temp > best_match_val:
+                    best_match_val = temp
+                    str_pos_1 = i
+                    str_pos_2 = c
+    out = two_string_align(str_arr[str_pos_1], str_arr[str_pos_2])
+    prev.append(out[0])
+    str_arr.pop(max(str_pos_1, str_pos_2))
+    str_arr.pop(min(str_pos_1, str_pos_2))
+    more_to_align = True
+    while(more_to_align):
+        consensus_string = out[1]
+        str_pos_to_use = 0
+        best_match_val = get_dynamic_score(consensus_string, str_arr[0])
+        for i  in range(len(str_arr)):
+            temp = get_dynamic_score(consensus_string, str_arr[i])
+            if temp > best_match_val:
+                best_match_val = temp
+                str_pos_to_use = i
+        out = two_string_align(consensus_string, str_arr[str_pos_to_use])
+        for i in range(len(prev)):
+            for c in out[2]:
+               prev[i] = prev[i][:c] + "-" + prev[i][c:]
+        prev.append(out[0])
+        str_arr.pop(str_pos_to_use)
+        if(len(str_arr) == 0):
+            more_to_align = False
+    prev.append(out[1])
+    return prev
 
-'''
-Param: str_lst : list of aligned strings
-Param: chunk : how much we want to split the string into
-chunks 
-'''
-def multi_print_alignment(seq_lst, chunk):
-    keep_going = True
-    offset = 0
-
-    string1 = ""
-    string2 = ""
-
-    diff_str = ""
-    str1 = ""
-    str2 = ""
-    even = True
-    #seq_count = 0
-
-    #TODO stars at bottom if they all are same in one place
-    #TODO print fasta names aka have array of 2 element as param
-    while keep_going:
-        print(f"Base Pairs {offset} to {str(min(offset + chunk, len(seq_lst[0])))}: ")
-        for i in range(len(seq_lst)):
-            string1 = seq_lst[i]
-            if i < len(seq_lst) - 1:
-                string2 = seq_lst[i + 1]
-
-            str1 = seq_lst[i][offset : min((offset + chunk), len(seq_lst[i]))]
-            if i < len(seq_lst) - 1:
-                str2 = seq_lst[i + 1][offset : min((offset + chunk), len(seq_lst[i+1]))]
+    
+                
             
-            for j in range(offset, (offset + chunk)):
-                print(j)
-                print
-                if(string1[j] == "-" or string2[j] == "-"):
-                    diff_str += " "
-                elif(string1[j] == string2[j]):
-                    diff_str += "|"
-                else: 
-                    diff_str +=  "."
-
-            if even:
-                print(str1)
-            print(diff_str)
-            if even:
-                print(str2)
-            even = not even # need to flip this every other iteration             
-            string1 = string2 = str1 = str2 = diff_str = ""
-
-        offset += chunk
-        print(offset)
-        if offset > len(str_lst[0]): 
-            keep_going = False
-        
 
 
 #print_alignment(str1, str2, 70)
-pprint(str_lst)
-multi_print_alignment(str_lst, 30)
+#pprint(str_lst)
+#multi_print_alignment(str_lst, 30)
+#str_arr = ["ATG", "ATAG","AATAAAG","AATUUUUG"]
+
+#new_str_arr = progressive_alignment(str_arr)
+#for i in new_str_arr:
+#    print(i)
