@@ -2,6 +2,7 @@ from FASTA import getSeq
 from sys import argv
 from Alignment import progressive_alignment
 from Align_Tool import multi_print_alignment
+from pprint import pprint
 
 def main():
     fasta_file = getSeq(argv[1])
@@ -29,7 +30,6 @@ def main():
         print(i)
         str_to_be_align.append(fasta_file[1][i])
     align_strs = progressive_alignment(str_to_be_align)
-    for i in align_strs:
     multi_print_alignment(align_strs, chunk)
     return
 main()
