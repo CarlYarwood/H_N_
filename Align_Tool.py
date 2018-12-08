@@ -143,6 +143,11 @@ def multi_print_alignment(seq_lst, chunk):
         if offset > len(str_lst[0]): 
             keep_going = False
 
+def basic_multi_string_print(string_arr , chunk):
+    posInString = [0 for i in range(len(string_arr))]
+    outString = ""
+    
+
 #print_alignment(str1, str2, 70)
 #pprint(str_lst)
 #multi_print_alignment(str_lst, 30)
