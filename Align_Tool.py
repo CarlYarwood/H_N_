@@ -139,10 +139,6 @@ def multi_print_alignment(seq_lst, chunk):
         if offset > len(seq_lst[0]): 
             keep_going = False
 
-def basic_multi_string_print(string_arr , chunk):
-    posInString = [0 for i in range(len(string_arr))]
-    outString = ""
-    file = open("/log/out.txt" , "w")
 
 #print_alignment(str1, str2, 70)
 #pprint(e_list)
