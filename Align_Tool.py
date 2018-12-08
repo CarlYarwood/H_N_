@@ -146,6 +146,7 @@ def multi_print_alignment(seq_lst, chunk):
 def basic_multi_string_print(string_arr , chunk):
     posInString = [0 for i in range(len(string_arr))]
     outString = ""
+    file = open("/log/out.txt" , "w")
     
 
 #print_alignment(str1, str2, 70)
