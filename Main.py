@@ -30,6 +30,8 @@ def main():
         print(i)
         str_to_be_align.append(fasta_file[1][i])
     align_strs = progressive_alignment(str_to_be_align)
-    multi_print_alignment(align_strs, chunk)
+    for i in align_strs[0]:
+        print(fasta_file[0][i])
+    multi_print_alignment(align_strs[1], chunk)
     return
 main()

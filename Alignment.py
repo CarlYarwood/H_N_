@@ -126,9 +126,11 @@ def progressive_alignment(str_arr):
     if len(str_arr) == 2:
         return two_string_align(str_arr[0], str_arr[1])
     prev = []
+    choices = []
     str_pos_1 = 0;
     str_pos_2 = 1;
     out = []
+    ret = []
     print("determining initiail pair")
     best_match_val = get_dynamic_score(str_arr[0], str_arr[1]);
     for i in range(len(str_arr)):
@@ -143,6 +145,8 @@ def progressive_alignment(str_arr):
     print("Alinging initial Pair")
     out = two_string_align(str_arr[str_pos_1], str_arr[str_pos_2])
     prev.append(out[0])
+    choices.append(str_pos_1)
+    choices.append(str_pos_2)
     str_arr.pop(max(str_pos_1, str_pos_2))
     str_arr.pop(min(str_pos_1, str_pos_2))
     more_to_align = True
@@ -158,6 +162,7 @@ def progressive_alignment(str_arr):
                 best_match_val = temp
                 str_pos_to_use = i
         out = two_string_align(consensus_string, str_arr[str_pos_to_use])
+        choices.append(str_pos_to_use)
         for i in range(len(prev)):
             for c in out[2]:
                prev[i] = prev[i][:c] + "-" + prev[i][c:]
@@ -166,7 +171,9 @@ def progressive_alignment(str_arr):
         if(len(str_arr) == 0):
             more_to_align = False
     prev.append(out[1])
-    return prev
+    ret.append(choices)
+    ret.append(prev)
+    return ret
 
     
                 
