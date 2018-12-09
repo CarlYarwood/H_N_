@@ -1,12 +1,11 @@
 from FASTA import getSeq
 from sys import argv
 from Alignment import progressive_alignment
-from Align_Tool import multi_print_alignment
+from Align_Tool import simple_multi_sequence_output
 from pprint import pprint
 
 def main():
-    in_file_name = input("enter the name of the file you would like to read: ")
-    fasta_file = getSeq(in_file_name)
+    fasta_file = getSeq(argv[1])
     #fasta_file = [["name1", "name2", "name3"], ["ATG", "ATAG", "TAG"]]
     choices = ""
     for i in range(len(fasta_file[0])):
@@ -30,9 +29,16 @@ def main():
     for i in arr_choices:
         print(i)
         str_to_be_align.append(fasta_file[1][i])
-    align_strs = progressive_alignment(str_to_be_align)
-    for i in align_strs[0]:
-        print(fasta_file[0][i])
-    multi_print_alignment(align_strs[1], chunk)
+    align_strs = progressive_alignment(str_to_be_align, arr_choices)
+    if(len(align_strs) == 2):
+        for i in align_strs[0]:
+            print(fasta_file[0][i])
+        simple_multi_sequence_output(align_strs[1], chunk)
+    else:
+        out = []
+        out.append(align_strs[0])
+        out.append(align_strs[1])
+        simple_multi_sequence_output(out, chunk)
+            
     return
 main()

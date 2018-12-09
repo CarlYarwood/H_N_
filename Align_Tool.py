@@ -36,7 +36,6 @@ def print_alignment(str1, str2, chunk):
     offset = 0
     while(keep_going):
         string1 = ""
-        print("Base Pairs "+ str(offset) +" to " + str(min(offset + chunk, len(str1))) + ": ")
         string3 = ""
         string1 = string1 + str1[offset:min(len(str1), offset + chunk)]
         string3 = string3 + str2[offset: min(len(str2), offset+ chunk)]
@@ -59,6 +58,7 @@ def print_alignment(str1, str2, chunk):
         print(string1)
         print(string2)
         print(string3)
+        print()
         string1 = ""
         string2 = ""
         string3 = ""
@@ -137,20 +137,33 @@ def multi_print_alignment(seq_lst, chunk):
         star_arr = [True] * chunk
         if offset > len(seq_lst[0]): 
             keep_going = False
-def simple_mulit_sequence_output(str_arr, chunk):
+def simple_multi_sequence_output(str_arr, chunk):
     if(len(str_arr) == 2):
         print_alignment(str_arr[0], str_arr[1], chunk)
         return
     current_pos = 0
-    for i in range(len(str_arr[0])):
+    keep_going = True
+    while(keep_going):
         line = ""
         for c in range(current_pos, min(len(str_arr[0]), current_pos + chunk)):
-            exptected_char = str_arr[0][c]
+            expected_char = str_arr[0][c]
             string_char = "*"
-           for z in range(len(str_arr)):
-               if str_arr[z][c] != expected_char:
+            for z in range(len(str_arr)):
+                if str_arr[z][c] != expected_char:
                    string_char = " "
-
+                elif str_arr[z][c] == "-":
+                    string_char = " "
+            line += string_char
+        for i in range(len(str_arr)):
+            print(str_arr[i][current_pos:min(len(str_arr[i]), current_pos + chunk)])
+        print(line)
+        if(current_pos > len(str_arr[0])):
+            keep_going = False
+        current_pos += chunk
+    return
+      
+              
 #print_alignment(str1, str2, 70)
 #pprint(e_list)
 #multi_print_alignment(e_list, 40)
+#simple_multi_sequence_output(str_lst, 50)
