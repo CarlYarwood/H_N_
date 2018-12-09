@@ -123,34 +123,46 @@ def get_indexes_for_best_alignment(str_arr):
     ret = {str1,str2}
     return ret
 def progressive_alignment(str_arr):
+    if len(str_arr) == 2:
+        return two_string_align(str_arr[0], str_arr[1])
     prev = []
+    choices = []
     str_pos_1 = 0;
     str_pos_2 = 1;
     out = []
+    ret = []
+    print("determining initiail pair")
     best_match_val = get_dynamic_score(str_arr[0], str_arr[1]);
     for i in range(len(str_arr)):
         for c in range(i,len( str_arr)):
             if i != c :
+                print("making progress")
                 temp = get_dynamic_score(str_arr[i], str_arr[c])
                 if temp > best_match_val:
                     best_match_val = temp
                     str_pos_1 = i
                     str_pos_2 = c
+    print("Alinging initial Pair")
     out = two_string_align(str_arr[str_pos_1], str_arr[str_pos_2])
     prev.append(out[0])
+    choices.append(str_pos_1)
+    choices.append(str_pos_2)
     str_arr.pop(max(str_pos_1, str_pos_2))
     str_arr.pop(min(str_pos_1, str_pos_2))
     more_to_align = True
     while(more_to_align):
         consensus_string = out[1]
         str_pos_to_use = 0
+        print("choosing next seq")
         best_match_val = get_dynamic_score(consensus_string, str_arr[0])
         for i  in range(len(str_arr)):
+            print("making progress")
             temp = get_dynamic_score(consensus_string, str_arr[i])
             if temp > best_match_val:
                 best_match_val = temp
                 str_pos_to_use = i
         out = two_string_align(consensus_string, str_arr[str_pos_to_use])
+        choices.append(str_pos_to_use)
         for i in range(len(prev)):
             for c in out[2]:
                prev[i] = prev[i][:c] + "-" + prev[i][c:]
@@ -159,7 +171,9 @@ def progressive_alignment(str_arr):
         if(len(str_arr) == 0):
             more_to_align = False
     prev.append(out[1])
-    return prev
+    ret.append(choices)
+    ret.append(prev)
+    return ret
 
     
                 
