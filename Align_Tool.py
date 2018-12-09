@@ -1,4 +1,3 @@
-import numpy as np
 from pprint import pprint
 
 str1 = ("GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
@@ -144,8 +143,13 @@ def simple_mulit_sequence_output(str_arr, chunk):
         return
     current_pos = 0
     for i in range(len(str_arr[0])):
+        line = ""
         for c in range(current_pos, min(len(str_arr[0]), current_pos + chunk)):
-            
+            exptected_char = str_arr[0][c]
+            string_char = "*"
+           for z in range(len(str_arr)):
+               if str_arr[z][c] != expected_char:
+                   string_char = " "
 
 #print_alignment(str1, str2, 70)
 #pprint(e_list)
