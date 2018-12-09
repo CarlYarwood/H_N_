@@ -138,7 +138,14 @@ def multi_print_alignment(seq_lst, chunk):
         star_arr = [True] * chunk
         if offset > len(seq_lst[0]): 
             keep_going = False
-
+def simple_mulit_sequence_output(str_arr, chunk):
+    if(len(str_arr) == 2):
+        print_alignment(str_arr[0], str_arr[1], chunk)
+        return
+    current_pos = 0
+    for i in range(len(str_arr[0])):
+        for c in range(current_pos, min(len(str_arr[0]), current_pos + chunk)):
+            
 
 #print_alignment(str1, str2, 70)
 #pprint(e_list)

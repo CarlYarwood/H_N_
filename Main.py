@@ -5,7 +5,8 @@ from Align_Tool import multi_print_alignment
 from pprint import pprint
 
 def main():
-    fasta_file = getSeq(argv[1])
+    in_file_name = input("enter the name of the file you would like to read: ")
+    fasta_file = getSeq(in_file_name)
     #fasta_file = [["name1", "name2", "name3"], ["ATG", "ATAG", "TAG"]]
     choices = ""
     for i in range(len(fasta_file[0])):
