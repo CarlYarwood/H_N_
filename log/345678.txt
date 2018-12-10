@@ -249,3 +249,16 @@ GCTGGTCTATCTTTATGGATGTGCTCCAATGGATCGTTACAATGC---A-
 TTGCATTTAAATTTGTGAGTTCAGATTGTAGTTAAAAACACCCT
 --G------AA-TT-T--G--C--ATT-T-G--------A----
   *      ** ** *  *  *  *   *          *    
+
+
+
+
+
+
+
+percent alingment is: 0.8583715596330275
+seqs lcl|CY111598.1_cds_AFF60787.1_1 and lcl|DQ083551.1_cds_AAZ29947.1_1 is 7143.0
+seqs lcl|DQ083551.1_cds_AAZ29947.1_1 and gb:AY818136|Organism:Influenza is 8458.0
+seqs gb:AY818136|Organism:Influenza and gb:EU122396|Organism:Influenza is 8197.0
+seqs gb:EU122396|Organism:Influenza and AF028709.1 is 7553.0
+seqs AF028709.1 and lcl|KX160148.1_cds_ANG09376.1_1 is 6906.0

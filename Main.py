@@ -30,10 +30,12 @@ def main():
         print(i)
         str_to_be_align.append(fasta_file[1][i])
     align_strs = progressive_alignment(str_to_be_align, arr_choices)
-    if(len(align_strs) == 2):
+    if(len(align_strs) == 3):
         for i in align_strs[0]:
             print(fasta_file[0][i])
         simple_multi_sequence_output(align_strs[1], chunk)
+        for i in range(len(align_strs[2])):
+            print("seqs " + fasta_file[0][align_strs[0][i]] + " and " + fasta_file[0][align_strs[0][i+1]] + " is " + str(align_strs[2][i]))
     else:
         out = []
         out.append(align_strs[0])

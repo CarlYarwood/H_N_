@@ -141,3 +141,10 @@ GCATTTAA
 GCATTTAA
 GCATTTGA
 ****** *
+
+
+
+
+percent alingment is: 0.9069086651053864
+seqs gb:AY818136|Organism:Influenza and lcl|DQ083551.1_cds_AAZ29947.1_1 is 7143.0
+seqs lcl|DQ083551.1_cds_AAZ29947.1_1 and lcl|KX160148.1_cds_ANG09376.1_1 is 7143.0

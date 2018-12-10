@@ -34,6 +34,7 @@ str_lst = [str1s, str2s, str3s, str4s, str5s]
 def print_alignment(str1, str2, chunk):
     keep_going = True
     offset = 0
+    total_align = 0
     while(keep_going):
         string1 = ""
         string3 = ""
@@ -53,6 +54,7 @@ def print_alignment(str1, str2, chunk):
                 string2 = string2 + " "
             elif(str1[i] == str2[i]):
                 string2 = string2 + "|"
+                total_align += 1
             else:
                 string2 = string2 + "."
         print(string1)
@@ -63,6 +65,7 @@ def print_alignment(str1, str2, chunk):
         string2 = ""
         string3 = ""
         offset = offset + chunk
+    print("percent align is : "+ str((total_align/len(str1))))
     return
 
 '''
@@ -143,16 +146,25 @@ def simple_multi_sequence_output(str_arr, chunk):
         return
     current_pos = 0
     keep_going = True
+    total_align = 0
     while(keep_going):
         line = ""
         for c in range(current_pos, min(len(str_arr[0]), current_pos + chunk)):
             expected_char = str_arr[0][c]
             string_char = "*"
+            total_align += 1
+            Again = False
             for z in range(len(str_arr)):
                 if str_arr[z][c] != expected_char:
                    string_char = " "
+                   if not Again:
+                       total_align -= 1
+                       Again = True
                 elif str_arr[z][c] == "-":
                     string_char = " "
+                    if not Again :
+                        total_align -= 1
+                        Again = True
             line += string_char
         for i in range(len(str_arr)):
             print(str_arr[i][current_pos:min(len(str_arr[i]), current_pos + chunk)])
@@ -160,6 +172,7 @@ def simple_multi_sequence_output(str_arr, chunk):
         if(current_pos > len(str_arr[0])):
             keep_going = False
         current_pos += chunk
+    print("percent alingment is: " + str((total_align/len(str_arr[0]))))
     return
       
               

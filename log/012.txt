@@ -144,3 +144,11 @@ ATCTAAGACCAGAATTTCAGAAATATAAGGAAAAACACCCTTGTTTCTAC
 T
 -
 A
+ 
+
+
+
+
+percent alingment is: 0.7024557395773844
+seqs gb:JN899402|Organism:Influenza and gb:AF117241|Organism:Influenza is 5743.0
+seqs gb:AF117241|Organism:Influenza and gb:FJ981613|Organism:Influenza is 5417.0
