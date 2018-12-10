@@ -1,3 +1,4 @@
+from Alignment import progressive_alignment
 protein_dict = {'TTT':'Phe','TTC':'Phe','TTA':'Leu','TTG':'Leu','TCT':'Ser',
                 'TCC':'Ser','TCA':'Ser','TCG':'Ser','TAT':'Tyr','TAC':'Tyr',
                 'TAA':'Ter','TAG':'Ter','TGT':'Cys','TGC':'Cys','TGA':'Ter',
@@ -56,7 +57,7 @@ def protein_alignment(sequences, seq_names):
 
     protein_comparisons = compare_proteins(protein_list)
 
-    display_proteins(protein_list,protein_comparisons, seq_names)
+    display_proteins(prottein_list, protein_comparisons, seq_names)
 
 
 def convert_bases_to_proteins(seq):
