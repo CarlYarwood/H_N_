@@ -1,3 +1,13 @@
+'''
+Main - handles initial user input, calls necessary functions, and 
+gives alignment output. 
+
+10 Dec 2018 
+'''
+
+
+
+
 from FASTA import getSeq
 from sys import argv
 from Alignment import progressive_alignment
