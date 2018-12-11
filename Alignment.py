@@ -81,7 +81,7 @@ def traceBack(dynamicArray, str1, str2):
             editPlacesRow.append(row)
         if row == 0 and col == 0:
             keepGoing = False
-    ret = [newStr1, newStr2, editPlacesRow]
+    ret = [newStr1, newStr2, editPlacesRow, " "]
     return ret
 
 
@@ -122,7 +122,7 @@ def get_indexes_for_best_alignment(str_arr):
                     str2 = c
     ret = {str1,str2}
     return ret
-def progressive_alignment(str_arr):
+def progressive_alignment(str_arr, possible_choice_arr):
     if len(str_arr) == 2:
         return two_string_align(str_arr[0], str_arr[1])
     prev = []
@@ -131,6 +131,7 @@ def progressive_alignment(str_arr):
     str_pos_2 = 1;
     out = []
     ret = []
+    scores =[]
     print("determining initiail pair")
     best_match_val = get_dynamic_score(str_arr[0], str_arr[1]);
     for i in range(len(str_arr)):
@@ -143,10 +144,13 @@ def progressive_alignment(str_arr):
                     str_pos_1 = i
                     str_pos_2 = c
     print("Alinging initial Pair")
+    scores.append(temp)
     out = two_string_align(str_arr[str_pos_1], str_arr[str_pos_2])
     prev.append(out[0])
-    choices.append(str_pos_1)
-    choices.append(str_pos_2)
+    choices.append(possible_choice_arr[str_pos_1])
+    choices.append(possible_choice_arr[str_pos_2])
+    possible_choice_arr.pop(max(str_pos_1, str_pos_2))
+    possible_choice_arr.pop(min(str_pos_1, str_pos_2))
     str_arr.pop(max(str_pos_1, str_pos_2))
     str_arr.pop(min(str_pos_1, str_pos_2))
     more_to_align = True
@@ -162,10 +166,12 @@ def progressive_alignment(str_arr):
                 best_match_val = temp
                 str_pos_to_use = i
         out = two_string_align(consensus_string, str_arr[str_pos_to_use])
-        choices.append(str_pos_to_use)
         for i in range(len(prev)):
             for c in out[2]:
                prev[i] = prev[i][:c] + "-" + prev[i][c:]
+        scores.append(best_match_val)
+        choices.append(possible_choice_arr[str_pos_to_use])
+        possible_choice_arr.pop(str_pos_to_use)
         prev.append(out[0])
         str_arr.pop(str_pos_to_use)
         if(len(str_arr) == 0):
@@ -173,6 +179,7 @@ def progressive_alignment(str_arr):
     prev.append(out[1])
     ret.append(choices)
     ret.append(prev)
+    ret.append(scores)
     return ret
 
     

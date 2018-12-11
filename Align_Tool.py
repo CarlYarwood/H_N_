@@ -34,9 +34,9 @@ str_lst = [str1s, str2s, str3s, str4s, str5s]
 def print_alignment(str1, str2, chunk):
     keep_going = True
     offset = 0
+    total_align = 0
     while(keep_going):
         string1 = ""
-        print("Base Pairs "+ str(offset) +" to " + str(min(offset + chunk, len(str1))) + ": ")
         string3 = ""
         string1 = string1 + str1[offset:min(len(str1), offset + chunk)]
         string3 = string3 + str2[offset: min(len(str2), offset+ chunk)]
@@ -54,15 +54,18 @@ def print_alignment(str1, str2, chunk):
                 string2 = string2 + " "
             elif(str1[i] == str2[i]):
                 string2 = string2 + "|"
+                total_align += 1
             else:
                 string2 = string2 + "."
         print(string1)
         print(string2)
         print(string3)
+        print()
         string1 = ""
         string2 = ""
         string3 = ""
         offset = offset + chunk
+    print("percent align is : "+ str((total_align/len(str1))))
     return
 
 '''
@@ -137,20 +140,43 @@ def multi_print_alignment(seq_lst, chunk):
         star_arr = [True] * chunk
         if offset > len(seq_lst[0]): 
             keep_going = False
-def simple_mulit_sequence_output(str_arr, chunk):
+def simple_multi_sequence_output(str_arr, chunk):
     if(len(str_arr) == 2):
         print_alignment(str_arr[0], str_arr[1], chunk)
         return
     current_pos = 0
-    for i in range(len(str_arr[0])):
+    keep_going = True
+    total_align = 0
+    while(keep_going):
         line = ""
         for c in range(current_pos, min(len(str_arr[0]), current_pos + chunk)):
-            exptected_char = str_arr[0][c]
+            expected_char = str_arr[0][c]
             string_char = "*"
-           for z in range(len(str_arr)):
-               if str_arr[z][c] != expected_char:
+            total_align += 1
+            Again = False
+            for z in range(len(str_arr)):
+                if str_arr[z][c] != expected_char:
                    string_char = " "
-
+                   if not Again:
+                       total_align -= 1
+                       Again = True
+                elif str_arr[z][c] == "-":
+                    string_char = " "
+                    if not Again :
+                        total_align -= 1
+                        Again = True
+            line += string_char
+        for i in range(len(str_arr)):
+            print(str_arr[i][current_pos:min(len(str_arr[i]), current_pos + chunk)])
+        print(line)
+        if(current_pos > len(str_arr[0])):
+            keep_going = False
+        current_pos += chunk
+    print("percent alingment is: " + str((total_align/len(str_arr[0]))))
+    return
+      
+              
 #print_alignment(str1, str2, 70)
 #pprint(e_list)
 #multi_print_alignment(e_list, 40)
+#simple_multi_sequence_output(str_lst, 50)
