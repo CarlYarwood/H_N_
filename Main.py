@@ -2,7 +2,10 @@ from FASTA import getSeq
 from sys import argv
 from Alignment import progressive_alignment
 from Align_Tool import simple_multi_sequence_output
+from Align_Tool import multi_print_alignment
 from pprint import pprint
+#import translate
+from genetic_code import code
 
 def main():
     fasta_file = getSeq(argv[1])
@@ -34,6 +37,21 @@ def main():
         for i in align_strs[0]:
             print(fasta_file[0][i])
         simple_multi_sequence_output(align_strs[1], chunk)
+        protein_strs = []
+
+        for string in align_strs[1]:
+            rna = string.replace('T', 'U')
+            aa_sequence = ''
+            for i in range(0, len(rna), 3):
+                codon = rna[i:i + 3]
+                if codon in code:
+                    aa = code[codon]
+                else:
+                    aa = "-"
+                aa_sequence += aa
+            protein_strs.append(aa_sequence)
+        multi_print_alignment(protein_strs, chunk)
+
         for i in range(len(align_strs[2])):
             print("seqs " + fasta_file[0][align_strs[0][i]] + " and " + fasta_file[0][align_strs[0][i+1]] + " is " + str(align_strs[2][i]))
     else:
