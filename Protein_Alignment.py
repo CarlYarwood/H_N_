@@ -128,11 +128,9 @@ def main():
     for i in range(len(sequences)):
         protein_list.append(convert_bases_to_proteins(sequences[i]))
 
-
     protein_comparisons = compare_proteins(protein_list)
 
     display_proteins(protein_list,protein_comparisons, seq_names)
-
 
 def protein_alignment(sequences, seq_names):
 
@@ -141,7 +139,6 @@ def protein_alignment(sequences, seq_names):
     for i in range(len(sequences)):
 
         protein_list.append(convert_bases_to_proteins(sequences[i]))
-
 
     protein_comparisons = compare_proteins(protein_list)
 
@@ -219,7 +216,7 @@ def display_proteins(protein_list, protein_comparisons, seq_names):
 
     while bad_output:
 
-        output_length = input("How many proteins per line would you like?: ")
+        output_length = input("How many amino acids per line would you like?: ")
 
         if(not output_length.isnumeric()):
             print("Please use an integer for the protein length")
