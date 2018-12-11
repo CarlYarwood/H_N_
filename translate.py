@@ -10,12 +10,14 @@ length
 2. fasta file has only one sequence
 '''
 
-from readfasta import readfasta
+#from readfasta import readfasta
 from genetic_code import code
 
+
+'''
 def main():
-    dna = readfasta('brca1_frag.fasta')[0][1]
-    rna = dna.replace('T', 'U')
+#    dna = readfasta('brca1_frag.fasta')[0][1]
+#    rna = dna.replace('T', 'U')
     print(rna)
 
     aa_sequence = ''
@@ -28,6 +30,6 @@ def main():
     print(aa_sequence)
 
 main()
-
+'''
 
     
