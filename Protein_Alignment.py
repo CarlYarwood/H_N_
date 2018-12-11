@@ -105,21 +105,24 @@ GAGAAGAAATAGATGGAGTGAAATTAGAATCAATGGGGGTCTATCAGATTCTGGCGATCTACTCAACTGT\
 CGCCAGTTCACTAGTGCTGTTAGTCTCCCTGGGGGCAATCAGCTTCTGGATGTGTTCTAATGGGTCTTTG\
 CAGTGCAGAATATGCATTTGA------------------------------------------'
 
+demo_1 = 'ATGAAACCCTTTGGG'
+
+demo_2 = 'ATGTTT---AAACCC'
+
 
 
 condon_length = 3
 
 def main():
 
-    print(len(Brisbane_H1_N1))
-    print(len(Cali_H1_N1))
-    print(len(SC_H1_N1))
+    #sequences = [demo_1,demo_2]
+    #seq_names = ['demo_1','demo_2']
 
-    sequences = [Brisbane_H1_N1,Cali_H1_N1]
-    seq_names = ['Brisbane_H1_N1', 'Cali_H1_N1']
+    #sequences = [Brisbane_H1_N1,Cali_H1_N1]
+    #seq_names = ['Brisbane_H1_N1', 'Cali_H1_N1']
 
-    #sequences = [Brisbane_H1_N1,Cali_H1_N1,SC_H1_N1]
-    #seq_names = ['Brisbane_H1_N1', 'Cali_H1_N1','SC_H1_N1']
+    sequences = [Brisbane_H1_N1,Cali_H1_N1,SC_H1_N1]
+    seq_names = ['Brisbane_H1_N1', 'Cali_H1_N1','SC_H1_N1']
     protein_list = []
 
     for i in range(len(sequences)):
@@ -153,23 +156,27 @@ def convert_bases_to_proteins(seq):
     times_to_run = int(len(seq) / condon_length)
 
     for index in range(times_to_run):
+        codon_bases = seq[0:3]
 
-         codon_bases = seq[0:3]
+        if('-' in codon_bases):
+            codon = '-'
 
+        else:
+             codon = protein_abrv_dict.get(codon_bases)
+
+        protein_seq.append(codon)
+        seq = seq[3:]
+
+    return protein_seq
+
+
+'''
          if(codon_bases.count('-',0,len(codon_bases)) == 1 and codon_bases.endswith('-')):
              codon = try_dict(codon_bases)
 
          elif(codon_bases.count('-',0,len(codon_bases)) >= 1):
             codon = ' '
-
-         else:
-             codon = protein_abrv_dict.get(codon_bases)
-
-         protein_seq.append(codon)
-         seq = seq[3:]
-
-    return protein_seq
-
+'''
 
 def try_dict(codon_bases):
 
@@ -283,8 +290,17 @@ def display_proteins(protein_list, protein_comparisons, seq_names):
             comparison_left =  (max_left + output_length + 6 
             + len(str(start_num)))
 
-        for i in range(len(protein_list)):
-            2+2
+        protein_str = [''] *len(protein_list)
 
+        for i in range(len(protein_list)):
+            protein_str[i] = ''.join(protein_list[i][start_num:end_num])
+            comparison_str = ''.join(protein_comparisons)
+
+            for j in range(len(protein_list)):
+
+                print(print(seq_names[i].ljust(max_left) + ' '*5 +
+                      str(end_num) + ' ' + protein_str[i]))
+            
+            comparison_left = max_left + remainder_row + 6 + len(str(start_num))
 
 if __name__ == '__main__': main()
