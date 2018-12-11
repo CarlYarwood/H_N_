@@ -57,7 +57,7 @@ def protein_alignment(sequences, seq_names):
 
     protein_comparisons = compare_proteins(protein_list)
 
-    display_proteins(prottein_list, protein_comparisons, seq_names)
+    display_proteins(protein_list, protein_comparisons, seq_names)
 
 
 def convert_bases_to_proteins(seq):
