@@ -1,4 +1,3 @@
-from Alignment import progressive_alignment
 protein_dict = {'TTT':'Phe','TTC':'Phe','TTA':'Leu','TTG':'Leu','TCT':'Ser',
                 'TCC':'Ser','TCA':'Ser','TCG':'Ser','TAT':'Tyr','TAC':'Tyr',
                 'TAA':'Ter','TAG':'Ter','TGT':'Cys','TGC':'Cys','TGA':'Ter',
@@ -27,14 +26,103 @@ protein_abrv_dict = {'TTT':'F','TTC':'F','TTA':'L','TTG':'L','TCT':'S',
                      'GCG':'A','GAT':'D','GAC':'D','GAA':'E','GAG':'E',
                      'GGT':'G','GGC':'G','GGA':'G','GGG':'G'}
 
+
+Brisbane_H1_N1 = 'ATGAAAGTAAAACTACTGGTCCTGTTATGCACATTTACAGCTACATATGCAGACACAATATGTATAGGCT\
+ACCATGCTAACAACTCGACCGACACTGTTGACACAGTACTTGAAAAGAATGTGACAGTGACACACTCTGT\
+CAACCTGCTTGAGAACAGTCACAATGGAAAACTATGTCTATTAAAAGGAATAGCCCCACTACAATTGGGT\
+AATTGCAGCGTTGCCGGGTGGATCTTAGGAAACCCAGAATGCGAATTACTGATTTCCAAGGAGTCATGGT\
+CCTACATTGTAGAAAAACCAAATCCTGAGAATGGAACATGTTACCCAGGGCATTTCGCTGACTATGAGGA\
+ACTGAGGGAGCAATTGAGTTCAGTATCTTCATTTGAGAGGTTCGAAATATTCCCCAAAGAAAGCTCATGG\
+CCCAACCACACCGTAACCGGAGTGTCAGCATCATGCTCCCATAATGGGGAAAGCAGTTTTTACAGAAATT\
+TGCTATGGCTGACGGGGAAGAATGGTTTGTACCCAAACCTGAGCAAGTCCTATGCAAACAACAAAGAAAA\
+AGAAGTCCTTGTACTATGGGGTGTTCATCACCCGCCAAACATAGGTAACCAAAAGGCCCTCTATCATACA\
+GAAAATGCTTATGTCTCTGTAGTGTCTTCACATTATAGCAGAAAATTCACCCCAGAAATAGCCAAAAGAC\
+CCAAAGTAAGAGATCAAGAAGGAAGAATCAATTACTACTGGACTCTGCTTGAACCCGGGGATACAATAAT\
+ATTTGAGGCAAATGGAAATCTAATAGCGCCAAGATATGCTTTCGCACTGAGTAGAGGCTTTGGATCAGGA\
+ATCATCAACTCAAATGCACCAATGGATAAATGTGATGCGAAGTGCCAAACACCTCAGGGAGCTATAAACA\
+GCAGTCTTCCTTTCCAGAACGTACACCCAGTCACAATAGGAGAGTGTCCAAAGTATGTCAGGAGTGCAAA\
+ATTAAGGATGGTTACAGGACTAAGGAACATCCCATCCATTCAATCCAGAGGTTTGTTTGGAGCCATTGCC\
+GGTTTCATTGAAGGGGGGTGGACTGGAATGGTAGATGGTTGGTATGGTTATCATCATCAGAATGAGCAAG\
+GATCTGGCTATGCTGCAGATCAAAAAAGCACACAAAATGCCATTAATGGGATTACAAACAAGGTGAATTC\
+TGTAATTGAGAAAATGAACACTCAATTCACAGCAGTGGGCAAAGAATTCAACAAATTGGAAAGAAGGATG\
+GAAAACTTGAATAAAAAAGTTGATGATGGGTTTATAGACATTTGGACATATAATGCAGAACTGTTGGTTC\
+TACTGGAAAATGAAAGGACTTTGGATTTCCATGACTCCAATGTGAAGAATCTGTATGAGAAAGTAAAAAG\
+CCAGTTAAAGAATAATGCTAAAGAAATAGGAAATGGGTGTTTTGAATTCTATCACAAGTGTAACGATGAA\
+TGCATGGAGAGTGTAAAGAATGGAACTTATGACTATCCAAAATATTCCGAAGAATCAAAGTTAAACAGGG\
+AGAAAATTGATGGAGTGAAATTGGAATCAATGGGAGTCTATCAGATTCTGGCGATCTACTCAACAGTCGC\
+CAGTTCTCTGGTTCTTTTGGTCTCCCTGGGGGCAATCAGCTTCTGGATGTGTTCCAATGGGTCTTTACAG\
+TGTAGAATATGCATCTAAGACCAGAATTTCAGAAATATAAGGAAAAACACCCTTGTTTCTACT'
+
+Cali_H1_N1 = 'ATGAAGGCAATACTAGTAGTTCTGCTATATACATTTGCAACCGCAAATGCAGACACATTATGTATAGGTT\
+ATCATGCGAACAATTCAACAGACACTGTAGACACAGTACTAGAAAAGAATGTAACAGTAACACACTCTGT\
+TAACCTTCTAGAAGACAAGCATAACGGGAAACTATGCAAACTAAGAGGGGTAGCCCCATTGCATTTGGGT\
+AAATGTAACATTGCTGGCTGGATCCTGGGAAATCCAGAGTGTGAATCACTCTCCACAGCAAGCTCATGGT\
+CCTACATTGTGGAAACACCTAGTTCAGACAATGGAACGTGTTACCCAGGAGATTTCATCGATTATGAGGA\
+GCTAAGAGAGCAATTGAGCTCAGTGTCATCATTTGAAAGGTTTGAGATATTCCCCAAGACAAGTTCATGG\
+CCCAATCATGACTCGAACAAAGGTGTAACGGCAGCATGTCCTCATGCTGGAGCAAAAAGCTTCTACAAAA\
+ATTTAATATGGCTAGTTAAAAAAGGAAATTCATACCCAAAGCTCAGCAAATCCTACATTAATGATAAAGG\
+GAAAGAAGTCCTCGTGCTATGGGGCATTCACCATCCATCTACTAGTGCTGACCAACAAAGTCTCTATCAG\
+AATGCAGATGCATATGTTTTTGTGGGGTCATCAAGATACAGCAAGAAGTTCAAGCCGGAAATAGCAATAA\
+GACCCAAAGTGAGGGATCAAGAAGGGAGAATGAACTATTACTGGACACTAGTAGAGCCGGGAGACAAAAT\
+AACATTCGAAGCAACTGGAAATCTAGTGGTACCGAGATATGCATTCGCAATGGAAAGAAATGCTGGATCT\
+GGTATTATCATTTCAGATACACCAGTCCACGATTGCAATACAACTTGTCAAACACCCAAGGGTGCTATAA\
+ACACCAGCCTCCCATTTCAGAATATACATCCGATCACAATTGGAAAATGTCCAAAATATGTAAAAAGCAC\
+AAAATTGAGACTGGCCACAGGATTGAGGAATATCCCGTCTATTCAATCTAGAGGCCTATTTGGGGCCATT\
+GCCGGTTTCATTGAAGGGGGGTGGACAGGGATGGTAGATGGATGGTACGGTTATCACCATCAAAATGAGC\
+AGGGGTCAGGATATGCAGCCGACCTGAAGAGCACACAGAATGCCATTGACGAGATTACTAACAAAGTAAA\
+TTCTGTTATTGAAAAGATGAATACACAGTTCACAGCAGTAGGTAAAGAGTTCAACCACCTGGAAAAAAGA\
+ATAGAGAATTTAAATAAAAAAGTTGATGATGGTTTCCTGGACATTTGGACTTACAATGCCGAACTGTTGG\
+TTCTATTGGAAAATGAAAGAACTTTGGACTACCACGATTCAAATGTGAAGAACTTATATGAAAAGGTAAG\
+AAGCCAGCTAAAAAACAATGCCAAGGAAATTGGAAACGGCTGCTTTGAATTTTACCACAAATGCGATAAC\
+ACGTGCATGGAAAGTGTCAAAAATGGGACTTATGACTACCCAAAATACTCAGAGGAAGCAAAATTAAACA\
+GAGAAGAAATAGATGGGGTAAAGCTGGAATCAACAAGGATTTACCAGATTTTGGCGATCTATTCAACTGT\
+CGCCAGTTCATTGGTACTGGTAGTCTCCCTGGGGGCAATCAGTTTCTGGATGTGCTCTAATGGGTCTCTA\
+CAGTGTAGAATATGTATTTAA------------------------------------------'
+
+SC_H1_N1 = 'ATGGAGGCAAGACTACTGGTCTTGTTATGTGCATTTGCAGCTACAAATGCAGACACAATATGTATAGGCT\
+ACCATGCGAATAACTCAACCGACACTGTTGACACAGTACTCGAAAAGAATGTGACCGTGACACACTCTGT\
+TAACCTGCTCGAAGACAGCCACAACGGAAAACTATGTAAATTAAAAGGAATAGCCCCATTACAATTGGGG\
+AAATGTAATATCGCCGGATGGCTCTTGGGAAACCCGGAATGCGATTTACTGCTCACAGCGAGCTCATGGT\
+CCTATATTGTAGAAACATCGAACTCAGAGAATGGAACATGTTACCCAGGAGATTTCATCGACTATGAAGA\
+ACTGAGGGAGCAATTGAGCTCAGTGTCATCGTTTGAAAAATTCGAAATATTTCCCAAGACAAGCTCGTGG\
+CCCAATCATGAAACAACCAAAGGTGTAACGGCAGCATGCTCCTATGCGGGAGCAAGCAGTTTTTACAGAA\
+ATTTGCTGTGGCTGACAAAGAAGGGAAGCTCATACCCAAAGCTTAGCAAGTCCTATGTGAACAATAAAGG\
+GAAAGAAGTCCTTGTACTATGGGGTGTTCATCATCCGCCTACCGGTACTGATCAACAGAGTCTCTATCAG\
+AATGCAGATGCTTATGTCTCTGTAGGGTCATCAAAATATAACAGGAGATTCACCCCGGAAATAGCAGCGA\
+GACCCAAAGTAAGAGATCAAGCTGGGAGGATGAACTATTACTGGACATTACTAGAACCCGGAGACACAAT\
+AACATTTGAGGCAACTGGAAATCTAATAGCACCATGGTATGCTTTCGCACTGAATAGAGGTTCTGGATCC\
+GGTATCATCACTTCAGACGCACCAGTGCATGATTGTAACACGAAGTGTCAAACACCCCATGGTGCTATAA\
+ACAGCAGTCTCCCTTTCCAGAATATACATCCAGTCACAATAGGAGAGTGCCCAAAATACGTCAGGAGTAC\
+CAAATTGAGGATGGCTACAGGACTAAGAAACATTCCATCTATTCAATCCAGGGGTCTATTTGGAGCCATT\
+GCCGGTTTTATTGAGGGGGGATGGACTGGAATGATAGATGGATGGTATGGTTATCATCATCAGAATGAAC\
+AGGGATCAGGCTATGCAGCGGATCAAAAAAGCACACAAAATGCCATTGACGGGATTACAAACAAGGTGAA\
+TTCTGTTATCGAGAAAATGAACACCCAATTCACAGCAGTGGGTAAAGAATTCAACAACTTAGAAAGAAGG\
+ATAGAAAATTTAAATAAAAAAGTCGATGATGGATTTCTGGATATTTGGACATATAATGCAGAATTGTTAG\
+TTCTACTGGAAAATGAAAGAACCCTGGATTTCCATGACTCAAATGTAAGGAATCTGTATGAGAAAGTAAA\
+AAGCCAATTAAAGAATAATGCCAAGGAAATCGGAAATGGATGTTTTGAGTTCTACCACAAGTGTGACGAT\
+GCATGCATGGAAAGTGTAAGAAATGGGACTTATGATTACCCAAAATATTCAGAAGAATCAAAGTTGAACA\
+GAGAAGAAATAGATGGAGTGAAATTAGAATCAATGGGGGTCTATCAGATTCTGGCGATCTACTCAACTGT\
+CGCCAGTTCACTAGTGCTGTTAGTCTCCCTGGGGGCAATCAGCTTCTGGATGTGTTCTAATGGGTCTTTG\
+CAGTGCAGAATATGCATTTGA------------------------------------------'
+
+demo_1 = 'ATGAAACCCTTTGGG'
+
+demo_2 = 'ATGTTT---AAACCC'
+
+
+
 condon_length = 3
 
 def main():
 
+    #sequences = [demo_1,demo_2]
+    #seq_names = ['demo_1','demo_2']
 
-    sequences = ['ATGAAAGTAAAACTACTGGTCCTGTT--GCACATTTACTACCATGCTAACATTTTTTTTTTTTTTTAAA',
-                 'ATGAAGGCAATATTTGGCGATCTATTCAACTGTCGCCAGTTCATTGGTACATTTTTTTTTTTTTTTAAA']
-    seq_names = ['Gene Ginger', 'Moe']
+    #sequences = [Brisbane_H1_N1,Cali_H1_N1]
+    #seq_names = ['Brisbane_H1_N1', 'Cali_H1_N1']
+
+    sequences = [Brisbane_H1_N1,Cali_H1_N1,SC_H1_N1]
+    seq_names = ['Brisbane_H1_N1', 'Cali_H1_N1','SC_H1_N1']
     protein_list = []
 
     for i in range(len(sequences)):
@@ -57,7 +145,7 @@ def protein_alignment(sequences, seq_names):
 
     protein_comparisons = compare_proteins(protein_list)
 
-    display_proteins(protein_list, protein_comparisons, seq_names)
+    display_proteins(protein_list,protein_comparisons, seq_names)
 
 
 def convert_bases_to_proteins(seq):
@@ -68,67 +156,40 @@ def convert_bases_to_proteins(seq):
     times_to_run = int(len(seq) / condon_length)
 
     for index in range(times_to_run):
+        codon_bases = seq[0:3]
 
-         codon_bases = seq[0:3]
-
-         if( '-' in codon_bases and
-             codon_bases.count('-',0,len(codon_bases)) == 1):
-             codon = try_dict(codon_bases)
-
-         elif(codon_bases.count('-',0,len(codon_bases)) > 1):
+        if('-' in codon_bases):
             codon = '-'
 
-         else:
+        else:
              codon = protein_abrv_dict.get(codon_bases)
 
-         protein_seq.append(codon)
-         seq = seq[3:]
+        protein_seq.append(codon)
+        seq = seq[3:]
 
     return protein_seq
 
 
+'''
+         if(codon_bases.count('-',0,len(codon_bases)) == 1 and codon_bases.endswith('-')):
+             codon = try_dict(codon_bases)
+
+         elif(codon_bases.count('-',0,len(codon_bases)) >= 1):
+            codon = ' '
+'''
+
 def try_dict(codon_bases):
 
-    index = codon_bases.index('-')
+    posibility_A = protein_abrv_dict.get(codon_bases[0:2] + 'A')
+    posibility_T = protein_abrv_dict.get(codon_bases[0:2] + 'T')
+    posibility_C = protein_abrv_dict.get(codon_bases[0:2] + 'C')
+    posibility_G = protein_abrv_dict.get(codon_bases[0:2] + 'G')
 
-    if(index == 0):
-
-        posibility_A = protein_abrv_dict.get('A' + codon_bases[1:3])
-        posibility_T = protein_abrv_dict.get('T' + codon_bases[1:3])
-        posibility_C = protein_abrv_dict.get('C' + codon_bases[1:3])
-        posibility_G = protein_abrv_dict.get('G' + codon_bases[1:3])
-
-        if(posibility_A == posibility_G and posibility_C == posibility_T):
-            codon = posibility_A
-        else:
-            codon = '-'
-
-    elif(index == 1):
-
-        posibility_A = protein_abrv_dict.get(codon_bases[0] + 'A'
-        + codon_bases[2])
-        posibility_T = protein_abrv_dict.get(codon_bases[0] + 'T' +
-        codon_bases[2])
-        posibility_C = protein_abrv_dict.get(codon_bases[0] + 'C' +
-        codon_bases[2])
-        posibility_G = protein_abrv_dict.get(codon_bases[0] + 'G' +
-        codon_bases[2])
-
-        if(posibility_A == posibility_G and posibility_C == posibility_T):
-            codon = posibility_A
-        else:
-            codon = '-'
+    if(posibility_A == posibility_G and posibility_C == posibility_T):
+        codon = posibility_A
 
     else:
-        posibility_A = protein_abrv_dict.get(codon_bases[0:2] + 'A')
-        posibility_T = protein_abrv_dict.get(codon_bases[0:2] + 'T')
-        posibility_C = protein_abrv_dict.get(codon_bases[0:2] + 'C')
-        posibility_G = protein_abrv_dict.get(codon_bases[0:2] + 'G')
-
-        if(posibility_A == posibility_G and posibility_C == posibility_T):
-            codon = posibility_A
-        else:
-            codon = '-'
+        codon = '-'
 
     return codon
 
@@ -199,6 +260,8 @@ def display_proteins(protein_list, protein_comparisons, seq_names):
             print(seq_names[1].ljust(max_left) + ' '*5 +
                   str(start_num) + ' ' + protein_str_1)
 
+            print(' ')
+
         if(remainder_row != 0):
             protein_str_0 = ''.join(protein_list[0][end_num:list_length])
             protein_str_1 = ''.join(protein_list[1][end_num:list_length])
@@ -215,6 +278,8 @@ def display_proteins(protein_list, protein_comparisons, seq_names):
             print(seq_names[1].ljust(max_left) + ' '*5 +
                       str(end_num) + ' ' + protein_str_1)
 
+            
+
     else:
         for i in range(full_rows):
             start_num = i * output_length
@@ -225,6 +290,17 @@ def display_proteins(protein_list, protein_comparisons, seq_names):
             comparison_left =  (max_left + output_length + 6 
             + len(str(start_num)))
 
+        protein_str = [''] *len(protein_list)
 
+        for i in range(len(protein_list)):
+            protein_str[i] = ''.join(protein_list[i][start_num:end_num])
+            comparison_str = ''.join(protein_comparisons)
+
+            for j in range(len(protein_list)):
+
+                print(print(seq_names[j].ljust(max_left) + ' '*5 +
+                      str(end_num) + ' ' + protein_str[j]))
+            
+            comparison_left = max_left + remainder_row + 6 + len(str(start_num))
 
 if __name__ == '__main__': main()
