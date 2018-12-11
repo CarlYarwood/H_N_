@@ -37,6 +37,12 @@ str3s = "GAAGCGCGTACACACCGCCCGTCACCCGCCTCAAGTATACTTCAAAGAACATTTAACTAAAACCCCTACG"
 str4s = "TACCGCCATCTTCAGCAAACCCTGATGGAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
 str5s = "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACACCAGAAAACTACGATAGCCCTT"
 str_lst = [str1s, str2s, str3s, str4s]
+'''
+Takes in and alings two strings
+Arguments: two strings which will be alligned
+Return: the two alligned strings and an array of numbers telling where the
+the first string was modified
+'''
 def two_string_align( str1, str2 ):
     workstr1 = "-" + str1
     workstr2 = "-" + str2
@@ -57,6 +63,13 @@ def two_string_align( str1, str2 ):
 							   ))]
             match_arr[ row + 1 ][ col + 1 ] = max( possibleChoices )
     return  traceBack(match_arr, workstr1, workstr2)
+'''
+takes in a score matrix and two strings and does a trace back on the matrix to
+align the two strings
+Arguments: the score Matrix, string 1, string 2
+Return: an array containing alinged string 1, aligned string 2, array of numbers
+reptresenting the locations where string 1 was changed
+'''
 def traceBack(dynamicArray, str1, str2):
     keepGoing = True
     row = len(str1) - 1
@@ -65,6 +78,8 @@ def traceBack(dynamicArray, str1, str2):
     newStr2 = ""
     editPlacesRow = []
     while(keepGoing):
+        #cutting this code to multiple lines drastically reduces readability
+        #determiningh how to trace back
         if ((str1[row] == str2[col]) and (dynamicArray[row - 1][col - 1] == dynamicArray[row][col] - 5)) or((str1[row] != str2[col]) and (dynamicArray[row -1][col - 1] == dynamicArray[row][col] + 4)):
             newStr1 = str1[row] + newStr1
             newStr2 = str2[col] + newStr2
@@ -81,12 +96,17 @@ def traceBack(dynamicArray, str1, str2):
             editPlacesRow.append(row)
         if row == 0 and col == 0:
             keepGoing = False
+    #added space to help differentiat returns in main
     ret = [newStr1, newStr2, editPlacesRow, " "]
     return ret
 
 
 
-
+'''
+gets the alignment score of two strings using dynamic programming
+Arguments: string 1, string 2
+Return: an int representing how well they align
+'''
 
 def get_dynamic_score(str1, str2):
     workstr1 = "-" + str1
@@ -108,6 +128,11 @@ def get_dynamic_score(str1, str2):
 							   ))]
             match_arr[ row + 1 ][ col + 1 ] = max( possibleChoices )
     return  match_arr[len(str1)-1][len(str2)-1]
+'''
+gets indexes for best alingment
+Argument:str_arr
+Return: set of two integers representing the best alignment
+'''
 def get_indexes_for_best_alignment(str_arr):
     str1 = 0
     str2 = 1
@@ -122,7 +147,13 @@ def get_indexes_for_best_alignment(str_arr):
                     str2 = c
     ret = {str1,str2}
     return ret
+'''
+does a progressive alingment on the strings you pass into it
+Argument: array of stings to be aligned, array of ints representing choices
+return: alligned strings, array of ints in order corresponding to the strings
+'''
 def progressive_alignment(str_arr, possible_choice_arr):
+    #detemines if a two string alingment should be done
     if len(str_arr) == 2:
         return two_string_align(str_arr[0], str_arr[1])
     prev = []
@@ -132,6 +163,7 @@ def progressive_alignment(str_arr, possible_choice_arr):
     out = []
     ret = []
     scores =[]
+    #determines initial pair
     print("determining initiail pair")
     best_match_val = get_dynamic_score(str_arr[0], str_arr[1]);
     for i in range(len(str_arr)):
