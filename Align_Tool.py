@@ -1,36 +1,22 @@
+'''
+Align_Tool.py - This file holds all the necessary code for 
+visualising alignment
+
+Eli Charleville 
+
+December 10 2018
+'''
+
+
 from pprint import pprint
+'''
+print_alignment -prints the aligned for two strings of sequences
 
-str1 = ("GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCATTTGGTATTTTCGTCTGGGGG"
-"GTGTGCACGCGATAGCATTGCGAGACGCTGGAGCCGGAGCACCCTATGTCGCAGTATCTGTCTTTGATTC"
-"CTGCCTCATCCTGTTATTTATCGCACCTACGTTCAATATTACAGGCGAACATACCTACTGAAGTGTGTTA"
-"ATTAATTAATGCTTATAGGACATAATAATAACAATTGAATGTCTGCACAGCCGCTTTCCACACAGACATC"
-"ATAACAAAAAATTTCCACCAAACCCCCCCCTCCCCCCGCTTCTGGCCACAGCACTTAAACACATCTCTGC"
-"CAAACCCCAAAAACAAAGAACCCTAACACCAGCCTAACCAGATTTCAAATTGTATCTTTTGGCGGTATGC"
-"ACTTTTAACAGTCACCCCCCAACTAACACATTATTTTCCCCTCCCACTCCCATACTACTAATCTCATCAA"
-"TACAACCCCCGCCCATCCTACCCAGCACACACACACCGCTGCTAACCCCATACCCCGAACCAACCAAACC"
-"CCAAAGACACCCCCCACAGTTTATGTAGCTTACCTCCTCAAAGCAATACACTGAAAATGTTTAGACGGGC"
-"TCACATCACCCCATAAACAAATAGGTTTGGTCCTAGCCTTTCTATTAGCTCTTAGTAAGATTACACATGC"
-"AAGCATCCCCGTTCCAGTGAGTTCACCCTCTAAATCACCACGATCAAAAGGGACAAGCATCAAGCACGCA")
+Param: str1 : first string we want to visualize
+Param: str2 : second string we want to visualize
 
-str2 = ("GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGCAAT" 
-"AAACGAAAGTTTAACTAAGCTATACTAACCCCAGGGTTGGTCAATTTCGTGCCAGCCACCGCGGTCACAC" 
-"GATTAACCCAAGTCAATAGAAGCCGGCGTAAAGAGTGTTTTAGATCACCCCCTCCCCAATAAAGCTAAAA" 
-"CTCACCTGAGTTGTAAAAAACTCCAGTTGACACAAAATAGACTACGAAAGTGGCTTTAACATATCTGAAC" 
-"ACACAATAGCTAAGACCCAAACTGGGATTAGATACCCCACTATGCTTAGCCCTAAACCTCAACAGTTAAA"
-"TCAACAAAACTGCTCGCCAGAACACTACGAGCCACAGCTTAAAACTCAAAGGACCTGGCGGTGCTTCATA"
-"TCCCTCTAGAGGAGCCTGTTCTGTAATCGATAAACCCCGATCAACCTCACCACCTCTTGCTCAGCCTATA"
-"TACCGCCATCTTCAGCAAACCCTGATGAAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
-"TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACCCCAGAAAACTACGATAGCCCTT"
-"ATGAAACTTAAGGGTCAAAGGTGGATTTAGCAGTAAACTGAGAGTAGAGTGCTTAGTTGAACAGGGCCCT"
-"GAAGCGCGTACACACCGCCCGTCACCCTCCTCAAGTATACTTCAAAGGACATTTAACTAAAACCCCTACG")
-
-str1s = "GCAATGCAGCTCAAAACGCTTAGCCTAGCCACACCCCCACGGGAAACAGCAGTGATTAACCTTTAGTAAT"
-str2s = "GATCACAGGTCTATCACCCTATTAACCGCTCACGGGAGCTCTCCATGAATTTGGTATTTTCGTCTGTGGG"
-str3s = "GAAGCGCGTACACACCGCCCGTCACCCGCCTCAAGTATACTTCAAAGAACATTTAACTAAAACCCCTACG"
-str4s = "TACCGCCATCTTCAGCAAACCCTGATGGAGGCTACAAAGTAAGCGCAAGTACCCACGTAAAGACGTTAGG"
-str5s = "TCAAGGTGTAGCCCATGAGGTGGCAAGAAATGGGCTACATTTTCTACACCAGAAAACTACGATAGCTCTT"
-
-str_lst = [str1s, str2s, str3s, str4s, str5s]
+Returns: Nothing
+'''
 def print_alignment(str1, str2, chunk):
     keep_going = True
     offset = 0
@@ -69,9 +55,14 @@ def print_alignment(str1, str2, chunk):
     return
 
 '''
+multi_print_alignment - takes in a list of strings and prints a multi
+string alignment visualisation
+
 Param: str_lst : list of aligned strings
 Param: chunk : how much we want to split the string into
 chunks 
+
+Returns: Nothing
 '''
 def multi_print_alignment(seq_lst, chunk):
     keep_going = True
@@ -90,14 +81,9 @@ def multi_print_alignment(seq_lst, chunk):
     if len(seq_lst) % 2 != 0:
         even = False
     #seq_count = 0
-
-    #TODO stars at bottom if they all are same in one place
-    #TODO print fasta names aka have array of 2 element as param
     while keep_going:
         print()
-        #print(f"Base Pairs {offset} to {str(min(offset + chunk, len(seq_lst[0])))}: ")
         
-
         for i in range(len(seq_lst) - 1):
             string1 = seq_lst[i]
             if i < len(seq_lst) - 1:
@@ -140,6 +126,19 @@ def multi_print_alignment(seq_lst, chunk):
         star_arr = [True] * chunk
         if offset > len(seq_lst[0]): 
             keep_going = False
+
+
+
+'''
+simple_multi_sequence_output - Does the same as multi_print_alignment
+but does not have "|" or "." to tell us where the sequences differ
+
+Param: str_arr : array of sequences we want to visualise 
+Param: chunck : how many characters we eant to see per line 
+in the visualisations 
+
+Returns: Nothing
+'''
 def simple_multi_sequence_output(str_arr, chunk):
     if(len(str_arr) == 2):
         print_alignment(str_arr[0], str_arr[1], chunk)
@@ -174,9 +173,3 @@ def simple_multi_sequence_output(str_arr, chunk):
         current_pos += chunk
     print("percent alingment is: " + str((total_align/len(str_arr[0]))))
     return
-      
-              
-#print_alignment(str1, str2, 70)
-#pprint(e_list)
-#multi_print_alignment(e_list, 40)
-#simple_multi_sequence_output(str_lst, 50)
