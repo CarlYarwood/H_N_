@@ -298,8 +298,8 @@ def display_proteins(protein_list, protein_comparisons, seq_names):
 
             for j in range(len(protein_list)):
 
-                print(print(seq_names[i].ljust(max_left) + ' '*5 +
-                      str(end_num) + ' ' + protein_str[i]))
+                print(print(seq_names[j].ljust(max_left) + ' '*5 +
+                      str(end_num) + ' ' + protein_str[j]))
             
             comparison_left = max_left + remainder_row + 6 + len(str(start_num))
 
