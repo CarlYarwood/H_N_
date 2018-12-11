@@ -284,23 +284,26 @@ def display_proteins(protein_list, protein_comparisons, seq_names):
         for i in range(full_rows):
             start_num = i * output_length
             end_num = i * output_length + output_length
-            max_left = max(len(seq_names[0]), len(seq_names[1]))
+            max_left = len(max(seq_names,key=len))
+            protein_str = [''] *len(protein_list)
 
             #Note the 6 is the number of spaces in the protein sequence lines
-            comparison_left =  (max_left + output_length + 6 
-            + len(str(start_num)))
+            comparison_left = max_left + output_length + 6 
+            + len(str(start_num))
 
-        protein_str = [''] *len(protein_list)
-
-        for i in range(len(protein_list)):
-            protein_str[i] = ''.join(protein_list[i][start_num:end_num])
-            comparison_str = ''.join(protein_comparisons)
+            for k in range(len(protein_list)):
+                protein_str[k] = ''.join(protein_list[k][start_num:end_num])
+                comparison_str = ''.join(protein_comparisons)
 
             for j in range(len(protein_list)):
 
-                print(print(seq_names[j].ljust(max_left) + ' '*5 +
-                      str(end_num) + ' ' + protein_str[j]))
+                print(seq_names[j].ljust(max_left) + ' '*5 +
+                      str(start_num) + ' ' + protein_str[j])
             
-            comparison_left = max_left + remainder_row + 6 + len(str(start_num))
+            comparison_left = max_left + output_length + 6 + len(str(start_num))
+            print(''+str(comparison_str[start_num:end_num]).
+                      rjust(comparison_left))
+
+            print('')
 
 if __name__ == '__main__': main()
